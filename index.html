@@ -1,3 +1,30 @@
+<!-- To Do:
+
+    Main Question: How do I make the elements appear when the game starts???
+        Change Styling.
+        Create Element.
+
+    Remember to commit regularly
+    Load quiz upon start button click
+    HTML elements for quiz question and answers
+    Figure out how to make answers selectable 
+    ^And then how to check if correct: Array of objects?? question, options, correct answer
+    Randomize answer order?
+    Implement scoring system: points variable
+    Store high scores: localStorage.set
+    Retrieve high scores: localStorage.get
+    Decrease time on wrong answer (timerCounter = timerCounter - 5);
+    End game on completion of questions or end of timer
+
+
+    Completed:
+    Start button with event listener
+    Timer triggered by start button
+
+ -->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,14 +34,31 @@
     <title>Coding Quiz</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
+
+
 <body>
-    <header><h1>Coding Quiz</h1></header>
+    <header><h1>Coding Quiz</h1></header> 
     <button id="start-quiz">Start Quiz</button>
 
     <div class="card">
         <div class="timer">10</div>
-            <h3>seconds remaining</h3>
+            <h3 id="timer-text"></h3>
     </div>
+
+     <main> <!-- quiz question and answers will go here -->
+        <h2 id="question"></h2>
+
+            <ul id="answer-list">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+
+
+
+    </main>
 
 
     <script src="./assets/js/script.js"></script>
