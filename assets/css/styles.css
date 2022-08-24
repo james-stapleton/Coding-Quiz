@@ -28,3 +28,8 @@ ul {
     width: 100%;
     justify-content: center;
 }
+
+#submit {
+    display: flex;
+    width: 50px
+}

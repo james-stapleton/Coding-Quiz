@@ -9,6 +9,22 @@ var score = 0;
 var isPaused = false;
 var initials = document.createElement("input");
 var submitScore = document.createElement("button");
+submitScore.id = "submit"
+submitScore.textContent = "Submit";
+var playAgain = document.createElement("button");
+playAgain.textContent = "Play Again";
+var clearScores = document.createElement("button");
+clearScores.textContent = "Clear High Scores";
+var headerElement = document.querySelector(".header");
+var scoresArray;
+var scoresStored =localStorage.getItem("score");
+if (!scoresStored) {
+    scoresArray = [];
+}
+else {
+    scoresArray = JSON.parse(scoresStored);
+}
+console.log(scoresArray);
 
 var questionArray = [ 
     {question: "What is JavaScript?",
@@ -32,20 +48,14 @@ var questionArray = [
     answer: "answer0"},
 ]
 
-// question: " ",
-//      choices: " ",
-//      answer: " "
-
 var startButton = document.querySelector("#start-quiz");
 
 function startTimer() {
     // Sets timer
-    timerText.textContent = " seconds remaining";
     timer = setInterval(function() {
       if (!isPaused) {
       timerCounter--;
-      console.log(timerCounter);
-      timerElement.textContent = timerCounter;
+      timerText.textContent = timerCounter + " seconds remaining";
       if (timerCounter <= 0) {
         // Clears interval
         clearInterval(timer);
@@ -63,9 +73,8 @@ function startTimer() {
     startTimer();
     });
 
-    
-
 function quiz() {
+    startButton.textContent = "";
     //Set the h2 with the question id to the question from the object at the index value provided by question number
     if (questionNumber == questionArray.length - 1) {
         finish();
@@ -78,7 +87,6 @@ function quiz() {
         var li = document.createElement("li");
         li.textContent = questionArray[questionNumber].choices[i];
         li.id = "answer" + i;
-        console.log(li.id);
         answerElement.appendChild(li);
     }
     answerCompare();
@@ -87,27 +95,20 @@ function quiz() {
 //get the id of the list elements
 //maybe store them in an array or something
 function answerCompare() {
-
-    
     var correct;
-
     for (var i = 0; i < 4; i++) {
         setId = "#answer"+i;
         var selection = document.querySelector(setId);
         var feedback = "";
-        console.log("This should say answerid" + selection.id);
         selection.addEventListener("click", function() {
             var choice = this.id;
             correct = questionArray[questionNumber].answer;
-            console.log("Choice: " + choice + "\nCorrect: " +correct);
             if (choice == correct) {
-                console.log("correct");
                 score++;
                 this.style.backgroundColor = "green";
                 feedback = "Correct!";
             }
             else {
-                console.log("incorrect");
                 this.style.backgroundColor = "red";
                 timerCounter = timerCounter - 5;
                 feedback = "Incorrect!";
@@ -147,16 +148,43 @@ function finish () {
     questionElement.appendChild(submitScore);
 
     if (timerCounter <= 0) {
-        console.log("Game over! Too slow or too stupid--or both");
     }  
     else {
 
     }
-    console.log("Score: " + score);
 }
 
 submitScore.addEventListener("click", function() {
     if (initials) {
-        console.log(initials.value);
     }
+    scoresArray.push(initials.value + " " + score);
+    console.log("This value should be in the array: " + initials.value);
+    console.log("This is what's in the array :" + scoresArray);
+    localStorage.setItem("score", JSON.stringify(scoresArray));
+    highScores();
 });
+
+playAgain.addEventListener("click", function() {
+    timerCounter=70;
+    questionNumber = 0;
+    score = 0;
+    headerElement.innerHTML = "Coding Quiz";
+
+    quiz();
+
+});
+
+clearScores.addEventListener("click", function() {
+    localStorage.clear();
+    console.log(JSON.parse(localStorage.getItem(score)));
+})
+
+function highScores() {
+   headerElement.innerHTML = "HighScores: "
+   answerElement.innerHTML = "";
+   answerElement.appendChild(playAgain);
+   answerElement.appendChild(clearScores);
+}
+
+
+
