@@ -7,6 +7,8 @@ var questionNumber = 0; //index into questionArray
 var answerElement = document.querySelector("#answer-list");
 var score = 0;
 var isPaused = false;
+var initials = document.createElement("input");
+var submitScore = document.createElement("button");
 
 var questionArray = [ 
     {question: "What is JavaScript?",
@@ -16,11 +18,23 @@ var questionArray = [
     {question: "What is the syntax for calling a function?",
     choices: ["functionName();", "<functionName>", "A function calls itself", ".functionName"],
     answer: "answer0"},
-    {},
-    {},
-    {},
-    {},
+    {question: "Arrays in JavaScript can be used to store...",
+     choices: ["Strings", "Booleans", "Objects", "All the above" ],
+     answer: "answer3"},
+    {question: "The condition for an if statement is enclose in...",
+    choices: ["{}", "<>", "[]", "()"],
+    answer: "answer3"},
+    {question: "A practical use for the console is... ",
+    choices: ["Writing funny messages", "Debugging code", "Inspecting elements", "None of the above"],
+    answer: "answer1"},
+    {question: "Commonly used data types do NOT include... ",
+    choices: ["Alerts", "Strings", "Booleans", "Numbers"],
+    answer: "answer0"},
 ]
+
+// question: " ",
+//      choices: " ",
+//      answer: " "
 
 var startButton = document.querySelector("#start-quiz");
 
@@ -44,7 +58,7 @@ function startTimer() {
 
   startButton.addEventListener("click", function() {
     console.log(startButton.innerHTML);
-    timerCounter = 10;
+    timerCounter = 70;
     quiz();
     startTimer();
     });
@@ -53,6 +67,10 @@ function startTimer() {
 
 function quiz() {
     //Set the h2 with the question id to the question from the object at the index value provided by question number
+    if (questionNumber == questionArray.length - 1) {
+        finish();
+        return;
+    }
     questionElement.textContent = questionArray[questionNumber].question;
     //Set the answer choices
     answerElement.innerHTML = "";
@@ -76,6 +94,7 @@ function answerCompare() {
     for (var i = 0; i < 4; i++) {
         setId = "#answer"+i;
         var selection = document.querySelector(setId);
+        var feedback = "";
         console.log("This should say answerid" + selection.id);
         selection.addEventListener("click", function() {
             var choice = this.id;
@@ -85,14 +104,18 @@ function answerCompare() {
                 console.log("correct");
                 score++;
                 this.style.backgroundColor = "green";
-                alert("correct");
-                
+                feedback = "Correct!";
             }
             else {
                 console.log("incorrect");
+                this.style.backgroundColor = "red";
                 timerCounter = timerCounter - 5;
-                alert("incorrect");
+                feedback = "Incorrect!";
             }
+            var feedbackText = document.createElement("p");
+            feedbackText.textContent = feedback;
+            answerElement.appendChild(feedbackText);
+
             var next = document.createElement("button");
             next.textContent = "Next Question";
              answerElement.appendChild(next);
@@ -117,8 +140,11 @@ function answerCompare() {
 };
 
 function finish () {
-    questionElement.innerHTML = "Game Over! Your score is: " + score + " Input initials:"
+    isPaused = true;
+    questionElement.textContent = "Game Over! Your score is: " + score + "\n" + "Input initials: "
     answerElement.innerHTML = ""
+    questionElement.appendChild(initials);
+    questionElement.appendChild(submitScore);
 
     if (timerCounter <= 0) {
         console.log("Game over! Too slow or too stupid--or both");
@@ -126,7 +152,11 @@ function finish () {
     else {
 
     }
-
     console.log("Score: " + score);
-
 }
+
+submitScore.addEventListener("click", function() {
+    if (initials) {
+        console.log(initials.value);
+    }
+});
