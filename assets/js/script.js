@@ -12,7 +12,9 @@ var questionArray = [
     choices: ["A website", "A scripting language", "A browser", "A computer"],
     answer: "answer1"
     },
-    {},
+    {question: "What is the syntax for calling a function?",
+    choices: ["functionName();", "<functionName>", "A function calls itself", ".functionName"],
+    answer: "answer0"},
     {},
     {},
     {},
@@ -50,9 +52,10 @@ function quiz() {
     //Set the h2 with the question id to the question from the object at the index value provided by question number
     questionElement.textContent = questionArray[questionNumber].question;
     //Set the answer choices
+    answerElement.innerHTML = "";
     for (var i = 0; i<4; i++) {
         var li = document.createElement("li");
-        li.textContent = "Test" + i;
+        li.textContent = questionArray[questionNumber].choices[i];
         li.id = "answer" + i;
         console.log(li.id);
         answerElement.appendChild(li);
@@ -78,21 +81,40 @@ function answerCompare() {
             if (choice == correct) {
                 console.log("correct");
                 score++;
+                this.style.backgroundColor = "green";
             }
             else {
                 console.log("incorrect");
                 timerCounter = timerCounter - 5;
             }
+
+        questionNumber++;
+        console.log("question number: "+questionNumber);
+        quiz();
+        });
+        selection.addEventListener("mouseover", function () {
+            this.style.backgroundColor = "aqua";
+        });
+
+        selection.addEventListener("mouseout", function(){
+            this.style.backgroundColor = "white";
+
         });
     }
+
 };
 
 function finish () {
+    questionElement.innerHTML = "Game Over! Your score is: " + score + " Input initials:"
+    answerElement.innerHTML = ""
+
     if (timerCounter <= 0) {
         console.log("Game over! Too slow or too stupid--or both");
     }  
     else {
 
     }
+
+    console.log("Score: " + score);
 
 }
