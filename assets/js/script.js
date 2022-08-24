@@ -191,8 +191,6 @@ function highScores() {
    for (var i = 0; i<scoresArray.length; i++) {
     divElement.innerHTML += scoresArray[i];
    }
-   
-   
 }
 
 
