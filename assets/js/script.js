@@ -6,6 +6,7 @@ var questionElement = document.querySelector("#question");
 var questionNumber = 0; //index into questionArray 
 var answerElement = document.querySelector("#answer-list");
 var score = 0;
+var isPaused = false;
 
 var questionArray = [ 
     {question: "What is JavaScript?",
@@ -27,6 +28,7 @@ function startTimer() {
     // Sets timer
     timerText.textContent = " seconds remaining";
     timer = setInterval(function() {
+      if (!isPaused) {
       timerCounter--;
       console.log(timerCounter);
       timerElement.textContent = timerCounter;
@@ -36,6 +38,7 @@ function startTimer() {
         timerElement.textContent = 0;
         finish();
       }
+    }
     }, 1000);
   }
 
@@ -82,15 +85,24 @@ function answerCompare() {
                 console.log("correct");
                 score++;
                 this.style.backgroundColor = "green";
+                alert("correct");
+                
             }
             else {
                 console.log("incorrect");
                 timerCounter = timerCounter - 5;
+                alert("incorrect");
             }
+            var next = document.createElement("button");
+            next.textContent = "Next Question";
+             answerElement.appendChild(next);
+            isPaused = true;
 
-        questionNumber++;
-        console.log("question number: "+questionNumber);
-        quiz();
+            next.addEventListener("click", function() {
+                isPaused = false;
+                questionNumber++;
+                quiz();
+            });        
         });
         selection.addEventListener("mouseover", function () {
             this.style.backgroundColor = "aqua";
