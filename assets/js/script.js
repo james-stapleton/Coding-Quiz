@@ -8,6 +8,8 @@ var answerElement = document.querySelector("#answer-list");
 var score = 0;
 var isPaused = false;
 var initials = document.createElement("input");
+var divElement = document.querySelector("#div");
+//buttons
 var submitScore = document.createElement("button");
 submitScore.id = "submit"
 submitScore.textContent = "Submit";
@@ -15,6 +17,8 @@ var playAgain = document.createElement("button");
 playAgain.textContent = "Play Again";
 var clearScores = document.createElement("button");
 clearScores.textContent = "Clear High Scores";
+
+
 var headerElement = document.querySelector(".header");
 var scoresArray;
 var scoresStored =localStorage.getItem("score");
@@ -184,6 +188,11 @@ function highScores() {
    answerElement.innerHTML = "";
    answerElement.appendChild(playAgain);
    answerElement.appendChild(clearScores);
+   for (var i = 0; i<scoresArray.length; i++) {
+    divElement.innerHTML += scoresArray[i];
+   }
+   
+   
 }
 
 
